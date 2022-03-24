@@ -1,100 +1,144 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Prime or Composite Number</title>
     <style>
-       #program1{
-           text-align: center;
-           /* font-size: 10px; */
-           
-       }
+        #program1 {
+            text-align: center;
+            /* font-size: 10px; */
 
+        }
     </style>
 </head>
+
 <body>
 
     <div id="program1">
         <h1>Check whether the number is prime or composite</h1>
         <label for="num1">Enter any natural number:</label>
-        <input type="number" id="num1" > <button onclick="check_prg_1()">Check</button><button id ="check_again" style="margin-left:10px; visibility: hidden;" onclick="reset()">Check again</button>
+        <input type="number" id="num1"> <button id="check_prg1" onclick="check_prg_1()">Check</button>
+        <!-- <button id ="check_again" style="margin-left:10px; visibility: hidden;" onclick="reset()">Check again</button> -->
         <p id="alerts"></p>
+        <hr>
+        <h1>Check whether the number is palindrome or not</h1>
+        <label for="num2">Enter any natural number:</label>
+        <input type="number" id="num2"> <button id="check_prg2" onclick="Check_prg_2()">Check</button>
+        <p id="alerts2"></p>
+
     </div>
 
 </body>
 <script>
-    
-    
-    
-    function check_prg_1(){
+
+    var error_audio = new Audio('window_error.wav');
+    var btn2 = document.getElementById("check_prg2")
+
+
+    function check_prg_1() {
         var num1 = document.getElementById("num1").value;
-        var error_audio = new Audio('window_error.wav');
 
-        if (num1 == ""){
-            error_audio.play();
-            document.getElementById("alerts").innerHTML = `
-            <p style="color: red; font-size: 2rem;">Enter a no.</p> `;
-            return;
-        } else if (num1 == 0 || num1<0) {
-            error_audio.play();
-            document.getElementById("alerts").innerHTML = `
-            <p style="color: red; font-size: 2rem;">Enter only natural no.</p> `;
-            return;
-        }
-        
+        if (document.getElementById('check_prg1').innerText == "Check") {
 
-        var c = 0;
-        for (i=2; i<num1; i++){
-            if (num1 % i == 0){
-                c++;
+
+            if (num1 == "") {
+                error_audio.play();
+                document.getElementById("alerts").innerHTML = `
+                <p style="color: red; font-size: 2rem;">Enter a no.</p> `;
+                return;
+            } else if (num1 == 0 || num1 < 0) {
+                error_audio.play();
+                document.getElementById("alerts").innerHTML = `
+                <p style="color: red; font-size: 2rem;">Enter only natural no.</p> `;
+                return;
             }
-        }
 
-        if (c == 0){
-            document.getElementById("alerts").innerHTML = `
-            <p style="color: green; font-size: 2rem;">Prime no.</p> `;
 
+            var c = 0;
+            for (i = 2; i < num1; i++) {
+                if (num1 % i == 0) {
+                    c++;
+                }
+            }
+
+            if (c == 0) {
+                document.getElementById("alerts").innerHTML = `
+                <p style="color: green; font-size: 2rem;">Prime no.</p> `;
+
+            }
+            else {
+                document.getElementById("alerts").innerHTML = `
+                <p style="color: green; font-size: 2rem;">Composite no.</p> `;
+            }      
+            // document.getElementById("check_again").style.visibility = "visible";
+
+            document.getElementById("num1").readOnly = true;
+            document.getElementById('check_prg1').innerText = "Check again"
         }
-        else{
-            document.getElementById("alerts").innerHTML = `
-            <p style="color: green; font-size: 2rem;">Composite no.</p> `;
+        else {
+            document.getElementById("num1").value = "";
+            document.getElementById("alerts").innerText = "";
+            // document.getElementById("check_again").style.visibility = "hidden";
+            document.getElementById('check_prg1').innerText = "Check"
+            document.getElementById("num1").readOnly = false;
         }
-        document.getElementById("check_again").style.visibility = "visible";
-        
-        document.getElementById("num1").readOnly = true;
     }
 
-    function reset(){
-        document.getElementById("num1").value = "";
-        document.getElementById("alerts").innerText = "";
-        document.getElementById("check_again").style.visibility = "hidden";
-        document.getElementById("num1").readOnly = false;
+    
+    function Check_prg_2() {
+        var num2 = document.getElementById('num2').value;
+        
+        if (btn2.innerText == "Check"){
 
+            // console.log(num2.value);
+            if (num2 == "") {
+                error_audio.play();
+                document.getElementById("alerts2").innerHTML = `
+                <p style="color: red; font-size: 2rem;">Enter a no.</p> `;
+                return;
+            } else if (num2 == 0 || num2 < 0) {
+                error_audio.play();
+                document.getElementById("alerts2").innerHTML = `
+                <p style="color: red; font-size: 2rem;">Enter only natural no.</p> `;
+                return;
+            }
+
+            var rem;
+            var result = 0;
+            var counter = num2;
+            while (num2 > 0){
+                rem = num2 % 10;
+                result = result*10 + rem;
+                num2 = parseInt(num2/10);
+                
+            }
+            
+            if (counter == result){
+                document.getElementById("alerts2").innerHTML = `
+                <p style="color: green; font-size: 2rem;">Palindrome no.</p> `;
+                document.getElementById("num2").readOnly = true;
+                btn2.innerText = "Check again";
+                
+            }
+            else{
+            document.getElementById("alerts2").innerHTML = `
+            <p style="color: green; font-size: 2rem;">Not a palindrome no.</p> `;
+            document.getElementById("num2").readOnly = true;
+            btn2.innerText = "Check again";
+            }
+        }else{
+            document.getElementById("num2").value = "";
+            document.getElementById("alerts2").innerText = "";
+            // document.getElementById("check_again").style.visibility = "hidden";
+            document.getElementById('check_prg2').innerText = "Check"
+            document.getElementById("num2").readOnly = false;
+        }
     }
 
-        
-    // }
-    // var c = 1;
-
-    // for (let i = 1; i < a; i++) {
-    //     if (a % i == 0){c++}        
-    // }
-    // if (c == 1){
-    //     const answer = "Prime Number";
-    // }
-    // else{
-    //     const answer = "Composite Nubmer";
-    // }
-    // b = prompt('What do you prefer ?: Book, Copy, Pen');
-    // console.log(b);
-    // var a = "Prakash"
-    // var answer = "Banjade"
-
-    // let ans = `<p>You entered ${a} and it is ${answer} </p>`
-
-    // document.body.innerHTML = ans;
-
+console.log(parseInt(344/10));
 </script>
+
 </html>
